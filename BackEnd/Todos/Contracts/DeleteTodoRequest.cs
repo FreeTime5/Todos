@@ -1,4 +1,5 @@
-﻿namespace Todos.Contracts
+﻿
+namespace Todos.Contracts
 {
-    public record DeleteTodoRequest (Guid id);
+    public record DeleteTodoRequest (Guid Id);
 }
