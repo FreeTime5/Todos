@@ -43,7 +43,11 @@ function Calendar() {
   const [dayOfTheWeek, setDay] = useState(today.getDay());
 
   const isAvailibleMonthButton = useMemo(() => {
-    return month === new Date().getMonth() ? false : true;
+    const currentDate = new Date();
+    return month === currentDate.getMonth() &&
+      year === currentDate.getFullYear()
+      ? false
+      : true;
   }, [month]);
 
   const nextMonth = useCallback(() => {

@@ -24,7 +24,7 @@ namespace Todos.Controllers
                 .Where(t => t.Date.Date == request.Date.Date)
                 .OrderBy(t => t.IsCompleated);
 
-            var notes = await query
+             var notes = await query
                 .Select(t => new TodoDto(t.Id, t.Title, t.Description, t.IsCompleated))
                 .ToListAsync(cancellationToken);
 
@@ -33,9 +33,9 @@ namespace Todos.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTodo([FromBody] CreateTodoRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateTodo([FromForm] CreateTodoRequest request, CancellationToken cancellationToken)
         {
-            var todo = new Todo(request.Title, request.Description, request.Date);
+            var todo = new Todo(request.Title, request.Description, new DateTime());
 
             await _dbContext.Todos.AddAsync(todo,cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
@@ -47,7 +47,7 @@ namespace Todos.Controllers
         public async Task<IActionResult> DeleteTodo([FromBody] DeleteTodoRequest request)
         {
             await _dbContext.Todos
-                .Where(t => t.Id == request.id)
+                .Where(t => t.Id == request.Id)
                 .ExecuteDeleteAsync();
             await _dbContext.SaveChangesAsync();
 
